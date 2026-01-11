@@ -12,41 +12,52 @@
             --bg: #fdfaf7;
         }
 
-        /* Perbaikan utama agar tidak terpotong */
         * { box-sizing: border-box; }
 
         body, html {
             margin: 0;
             padding: 0;
-            overflow-x: hidden;
             width: 100%;
-            scroll-behavior: smooth;
             font-family: 'Poppins', sans-serif;
             background-color: var(--bg);
         }
 
-        section {
-            min-height: 100vh;
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 40px 20px;
+        /* Mengunci scroll sebelum undangan dibuka */
+        body.locked {
+            overflow: hidden;
         }
 
-        .hero {
+        /* Tampilan Cover/Overlay Utama */
+        #wedding-cover {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), 
                         url('https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1350&q=80');
             background-size: cover;
             background-position: center;
             color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            z-index: 1000;
+            transition: transform 1s ease-in-out, opacity 1s ease-in-out;
+            padding: 20px;
+        }
+
+        /* Animasi saat dibuka (terangkat ke atas) */
+        #wedding-cover.opened {
+            transform: translateY(-100%);
+            opacity: 0;
+            pointer-events: none;
         }
 
         h1 { font-family: 'Playfair Display', serif; font-size: 2.2rem; margin: 10px 0; line-height: 1.2; }
         h2 { font-family: 'Playfair Display', serif; color: var(--primary); font-size: 1.8rem; margin-bottom: 20px; }
-        h3 { font-family: 'Playfair Display', serif; margin: 10px 0; }
 
         .card {
             background: white;
@@ -54,17 +65,15 @@
             border-radius: 20px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
             width: 100%;
-            max-width: 350px; /* Ukuran pas untuk layar HP */
+            max-width: 350px;
             margin: 15px auto;
         }
 
-        /* Countdown Style agar rapi di layar kecil */
         .countdown-container {
             display: flex;
             justify-content: center;
             gap: 8px;
             margin: 25px 0;
-            width: 100%;
         }
         .countdown-item {
             background: var(--primary);
@@ -75,7 +84,7 @@
             max-width: 70px;
         }
         .countdown-item span { display: block; font-size: 1.1rem; font-weight: bold; }
-        .countdown-item small { font-size: 0.6rem; text-transform: uppercase; }
+        .countdown-item small { font-size: 0.6rem; }
 
         .btn {
             background: var(--primary);
@@ -102,11 +111,9 @@
             height: 45px;
             border-radius: 50%;
             box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-            font-size: 1.2rem;
+            display: none; /* Sembunyikan musik sebelum dibuka */
         }
 
-        .couple-name { font-size: 1.5rem; font-weight: bold; color: var(--primary); margin: 5px 0; }
-        
         .guest-box {
             margin-top: 20px;
             border: 1px dashed rgba(255,255,255,0.8);
@@ -117,42 +124,36 @@
             width: 250px;
         }
 
-        form input, form textarea {
-            width: 100%;
-            padding: 12px;
-            margin: 8px 0;
-            border-radius: 8px;
-            border: 1px solid #ddd;
-            font-family: inherit;
+        section {
+            padding: 60px 20px;
+            text-align: center;
         }
+
+        .couple-name { font-size: 1.5rem; font-weight: bold; color: var(--primary); }
     </style>
 </head>
-<body>
+<body class="locked"> <div id="wedding-cover">
+        <p style="letter-spacing: 3px; font-size: 0.8rem;">THE WEDDING OF</p>
+        <h1>Zulkifli &<br>Aulia Fitri R.</h1>
+        <p>12 . 12 . 2026</p>
+        
+        <div class="guest-box">
+            <p style="font-size: 0.75rem; margin: 0;">Kepada Yth. Bapak/Ibu/Saudara/i:</p>
+            <h3 id="nama-tamu-cover" style="margin: 5px 0; font-size: 1.3rem;">Tamu Undangan</h3>
+        </div>
 
-    <button class="music-btn" onclick="toggleMusic()">🎵</button>
+        <button class="btn" onclick="openInvitation()">Buka Undangan</button>
+    </div>
+
+    <button id="btn-music" class="music-btn" onclick="toggleMusic()">🎵</button>
     <audio id="song" loop>
         <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
     </audio>
 
-    <section class="hero">
-        <div data-aos="fade-up">
-            <p style="letter-spacing: 3px; font-size: 0.8rem; margin-bottom: 0;">THE WEDDING OF</p>
-            <h1>Zulkifli &<br>Aulia Fitri R.</h1>
-            <p style="font-size: 1rem;">12 . 12 . 2026</p>
-            
-            <div class="guest-box">
-                <p style="font-size: 0.75rem; margin: 0; opacity: 0.9;">Kepada Yth. Bapak/Ibu/Saudara/i:</p>
-                <h3 id="nama-tamu" style="margin: 5px 0; font-size: 1.3rem;">Tamu Undangan</h3>
-            </div>
-
-            <a href="#isi" class="btn">Buka Undangan</a>
-        </div>
-    </section>
-
     <section id="isi">
         <div class="card" data-aos="zoom-in">
-            <p style="font-size: 0.9rem; line-height: 1.6;"><i>"Di antara tanda-tanda kebesaran-Nya adalah Dia menciptakan pasangan-pasangan untukmu agar kamu merasa tenteram."</i></p>
-            <p style="margin-top: 10px;"><b>QS. Ar-Rum: 21</b></p>
+            <p><i>"Di antara tanda-tanda kebesaran-Nya adalah Dia menciptakan pasangan-pasangan untukmu agar kamu merasa tenteram."</i></p>
+            <p><b>QS. Ar-Rum: 21</b></p>
         </div>
 
         <div class="countdown-container" data-aos="fade-up">
@@ -162,69 +163,52 @@
             <div class="countdown-item"><span id="seconds">00</span><small>Detik</small></div>
         </div>
 
-        <div data-aos="fade-up" style="margin-top: 30px;">
+        <div data-aos="fade-up">
             <h2>Mempelai</h2>
             <p class="couple-name">Zulkifli</p>
-            <p style="font-size: 0.85rem; color: #666;">Putra dari Bapak [Nama] & Ibu [Nama]</p>
-            <p style="font-size: 1.5rem; margin: 10px 0; color: var(--primary); font-family: 'Playfair Display', serif;">&</p>
+            <p>&</p>
             <p class="couple-name">Aulia Fitri Ramadhani</p>
-            <p style="font-size: 0.85rem; color: #666;">Putri dari Bapak [Nama] & Ibu [Nama]</p>
         </div>
     </section>
 
     <section style="background-color: #f4f1ed;">
         <div class="card" data-aos="fade-right">
             <h3>Akad Nikah</h3>
-            <p style="font-size: 0.9rem; margin: 5px 0;">Pukul 08.00 - 10.00 WIB</p>
-            <p style="font-size: 0.9rem; font-weight: bold;">Gedung BBPK Lembang</p>
-            <p style="font-size: 0.8rem; color: #666;">Jl. Raya Lembang No. 112</p>
-            <a href="https://maps.google.com" target="_blank" class="btn">Lihat Lokasi</a>
-        </div>
-        <div class="card" data-aos="fade-left">
-            <h3>Resepsi</h3>
-            <p style="font-size: 0.9rem; margin: 5px 0;">Pukul 11.00 - 13.00 WIB</p>
-            <p style="font-size: 0.9rem; font-weight: bold;">Gedung BBPK Lembang</p>
-            <p style="font-size: 0.8rem; color: #666;">Lokasi yang sama</p>
-        </div>
-    </section>
-
-    <section style="background-color: white;">
-        <div class="card" data-aos="fade-up">
-            <h2>Buku Tamu</h2>
-            <form style="text-align: left; font-size: 0.85rem;">
-                <label>Nama Anda:</label>
-                <input type="text" placeholder="Masukkan Nama">
-                <label>Ucapan & Doa:</label>
-                <textarea placeholder="Tulis ucapan selamat..." rows="4"></textarea>
-                <button type="button" class="btn" style="width: 100%; margin-top: 10px;" onclick="alert('Terima kasih atas ucapannya!')">Kirim Ucapan</button>
-            </form>
+            <p>08.00 - 10.00 WIB</p>
+            <p>Gedung BBPK Lembang</p>
+            <a href="#" class="btn">Google Maps</a>
         </div>
     </section>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
     <script>
-        AOS.init({ duration: 1000, once: true });
+        AOS.init({ duration: 1000 });
 
-        // Ambil nama tamu dari link: ?to=Nama+Tamu
+        // Fitur Nama Tamu
         const urlParams = new URLSearchParams(window.location.search);
         const tamu = urlParams.get('to');
         if (tamu) { 
-            document.getElementById('nama-tamu').innerText = tamu; 
+            document.getElementById('nama-tamu-cover').innerText = tamu; 
         }
 
-        // Hitung Mundur 12 Des 2026
-        const weddingDate = new Date("Dec 12, 2026 08:00:00").getTime();
-        setInterval(function() {
-            const now = new Date().getTime();
-            const diff = weddingDate - now;
+        // FUNGSI BUKA UNDANGAN
+        function openInvitation() {
+            // 1. Hilangkan cover dengan animasi
+            const cover = document.getElementById('wedding-cover');
+            cover.classList.add('opened');
             
-            if (diff > 0) {
-                document.getElementById("days").innerText = Math.floor(diff / (1000 * 60 * 60 * 24));
-                document.getElementById("hours").innerText = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                document.getElementById("minutes").innerText = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-                document.getElementById("seconds").innerText = Math.floor((diff % (1000 * 60)) / 1000);
-            }
-        }, 1000);
+            // 2. Buka kunci scroll
+            document.body.classList.remove('locked');
+            
+            // 3. Munculkan tombol musik dan putar otomatis
+            document.getElementById('btn-music').style.display = 'block';
+            toggleMusic(); 
+            
+            // 4. Refresh AOS agar animasi konten berjalan
+            setTimeout(() => {
+                AOS.refresh();
+            }, 500);
+        }
 
         // Kontrol Musik
         const audio = document.getElementById('song');
@@ -232,13 +216,24 @@
         function toggleMusic() {
             if(!playing) { 
                 audio.play(); 
-                document.querySelector('.music-btn').innerText = "⏸"; 
+                document.getElementById('btn-music').innerText = "⏸"; 
             } else { 
                 audio.pause(); 
-                document.querySelector('.music-btn').innerText = "🎵"; 
+                document.getElementById('btn-music').innerText = "🎵"; 
             }
             playing = !playing;
         }
+
+        // Countdown
+        const weddingDate = new Date("Dec 12, 2026 08:00:00").getTime();
+        setInterval(function() {
+            const now = new Date().getTime();
+            const diff = weddingDate - now;
+            document.getElementById("days").innerText = Math.floor(diff / (1000 * 60 * 60 * 24));
+            document.getElementById("hours").innerText = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            document.getElementById("minutes").innerText = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            document.getElementById("seconds").innerText = Math.floor((diff % (1000 * 60)) / 1000);
+        }, 1000);
     </script>
 </body>
 </html>
