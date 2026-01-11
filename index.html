@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>The Wedding of Zulkifli & Aulia Fitri R.</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Poppins:wght@300;400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
@@ -12,10 +12,13 @@
             --bg: #fdfaf7;
         }
 
+        * { box-sizing: border-box; }
+
         body, html {
             margin: 0;
             padding: 0;
             overflow-x: hidden;
+            width: 100%;
             scroll-behavior: smooth;
             font-family: 'Poppins', sans-serif;
             background-color: var(--bg);
@@ -23,51 +26,64 @@
 
         section {
             min-height: 100vh;
+            width: 100%;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             text-align: center;
-            padding: 60px 20px;
-            box-sizing: border-box;
+            padding: 40px 15px; /* Padding diperkecil agar tidak terpotong */
         }
 
         .hero {
-            background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), 
+            background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), 
                         url('https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1350&q=80');
             background-size: cover;
             background-position: center;
             color: white;
         }
 
-        h1 { font-family: 'Playfair Display', serif; font-size: 3rem; margin: 10px 0; }
-        h2 { font-family: 'Playfair Display', serif; color: var(--primary); font-size: 2.2rem; margin-bottom: 20px; }
+        h1 { font-family: 'Playfair Display', serif; font-size: 2.2rem; margin: 10px 0; }
+        h2 { font-family: 'Playfair Display', serif; color: var(--primary); font-size: 1.8rem; margin-bottom: 20px; }
 
         .card {
             background: white;
-            padding: 40px;
+            padding: 25px 20px;
             border-radius: 20px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-            max-width: 550px;
             width: 100%;
-            margin: 20px auto;
+            max-width: 400px; /* Ukuran maksimal disesuaikan untuk HP */
+            margin: 15px auto;
         }
+
+        /* Countdown Style */
+        .countdown-container {
+            display: flex;
+            gap: 10px;
+            margin: 20px 0;
+        }
+        .countdown-item {
+            background: var(--primary);
+            color: white;
+            padding: 10px;
+            border-radius: 10px;
+            flex: 1;
+            min-width: 60px;
+        }
+        .countdown-item span { display: block; font-size: 1.2rem; font-weight: bold; }
+        .countdown-item small { font-size: 0.7rem; }
 
         .btn {
             background: var(--primary);
             color: white;
-            padding: 12px 30px;
+            padding: 12px 25px;
             border-radius: 50px;
             text-decoration: none;
             display: inline-block;
-            margin-top: 20px;
+            margin-top: 15px;
             border: none;
-            cursor: pointer;
-            transition: 0.3s;
-            font-family: 'Poppins', sans-serif;
+            font-size: 0.9rem;
         }
-
-        .btn:hover { background: #6d5a43; transform: scale(1.05); }
 
         .music-btn {
             position: fixed;
@@ -77,14 +93,22 @@
             background: var(--primary);
             color: white;
             border: none;
-            width: 50px;
-            height: 50px;
+            width: 45px;
+            height: 45px;
             border-radius: 50%;
-            cursor: pointer;
             box-shadow: 0 4px 10px rgba(0,0,0,0.2);
         }
 
-        .couple-name { font-size: 1.8rem; font-weight: bold; color: var(--primary); margin: 5px 0; }
+        .couple-name { font-size: 1.5rem; font-weight: bold; color: var(--primary); }
+        
+        /* Undangan Untuk Tamu */
+        .guest-box {
+            margin-top: 20px;
+            border: 1px dashed white;
+            padding: 10px;
+            border-radius: 10px;
+            background: rgba(255,255,255,0.1);
+        }
     </style>
 </head>
 <body>
@@ -96,67 +120,87 @@
 
     <section class="hero">
         <div data-aos="fade-up">
-            <p style="letter-spacing: 5px;">THE WEDDING OF</p>
+            <p style="letter-spacing: 3px; font-size: 0.8rem;">THE WEDDING OF</p>
             <h1>Zulkifli & Aulia Fitri R.</h1>
             <p>12 . 12 . 2026</p>
+            
+            <div class="guest-box">
+                <p style="font-size: 0.7rem; margin: 0;">Kepada Yth. Bapak/Ibu/Saudara/i:</p>
+                <h3 id="nama-tamu" style="margin: 5px 0; font-size: 1.2rem;">Tamu Undangan</h3>
+            </div>
+
             <a href="#isi" class="btn">Buka Undangan</a>
         </div>
     </section>
 
     <section id="isi">
         <div class="card" data-aos="zoom-in">
-            <p><i>"Di antara tanda-tanda kebesaran-Nya adalah Dia menciptakan pasangan-pasangan untukmu agar kamu merasa tenteram."</i></p>
+            <p style="font-size: 0.9rem;"><i>"Di antara tanda-tanda kebesaran-Nya adalah Dia menciptakan pasangan-pasangan untukmu agar kamu merasa tenteram."</i></p>
             <p><b>QS. Ar-Rum: 21</b></p>
         </div>
 
-        <div data-aos="fade-up" style="margin-top: 40px;">
+        <div class="countdown-container" data-aos="fade-up">
+            <div class="countdown-item"><span id="days">00</span><small>Hari</small></div>
+            <div class="countdown-item"><span id="hours">00</span><small>Jam</small></div>
+            <div class="countdown-item"><span id="minutes">00</span><small>Menit</small></div>
+            <div class="countdown-item"><span id="seconds">00</span><small>Detik</small></div>
+        </div>
+
+        <div data-aos="fade-up" style="margin-top: 30px;">
             <h2>Mempelai</h2>
             <p class="couple-name">Zulkifli</p>
-            <p>Putra dari Bapak [Nama Ayah] & Ibu [Nama Ibu]</p>
-            <p style="font-size: 1.5rem; margin: 15px 0;">&</p>
+            <p style="font-size: 0.8rem;">Putra dari Bapak [Nama] & Ibu [Nama]</p>
+            <p style="font-size: 1.2rem; margin: 10px 0;">&</p>
             <p class="couple-name">Aulia Fitri Ramadhani</p>
-            <p>Putri dari Bapak [Nama Ayah] & Ibu [Nama Ibu]</p>
+            <p style="font-size: 0.8rem;">Putri dari Bapak [Nama] & Ibu [Nama]</p>
         </div>
     </section>
 
     <section style="background-color: #f4f1ed;">
         <div class="card" data-aos="fade-right">
             <h3>Akad Nikah</h3>
-            <p>Pukul 08.00 - 10.00 WIB</p>
-            <p>Gedung BBPK Lembang<br>Jl. Raya Lembang No. 112</p>
+            <p style="font-size: 0.9rem;">Pukul 08.00 - 10.00 WIB<br>Gedung BBPK Lembang</p>
             <a href="https://maps.google.com" target="_blank" class="btn">Google Maps</a>
         </div>
         <div class="card" data-aos="fade-left">
             <h3>Resepsi</h3>
-            <p>Pukul 11.00 - 13.00 WIB</p>
-            <p>Lokasi yang sama</p>
+            <p style="font-size: 0.9rem;">Pukul 11.00 - 13.00 WIB<br>Lokasi yang sama</p>
         </div>
     </section>
 
     <section style="background-color: white;">
         <div class="card" data-aos="fade-up">
             <h2>Buku Tamu</h2>
-            <form id="comment-form" style="text-align: left; margin-top: 20px;">
+            <form style="text-align: left; font-size: 0.8rem;">
                 <label>Nama:</label>
-                <input type="text" placeholder="Nama Anda" style="width: 100%; padding: 12px; margin: 10px 0; border-radius: 8px; border: 1px solid #ddd; box-sizing: border-box;">
+                <input type="text" style="width: 100%; padding: 10px; margin: 5px 0 15px; border-radius: 8px; border: 1px solid #ddd;">
                 <label>Ucapan:</label>
-                <textarea placeholder="Tulis ucapan selamat..." style="width: 100%; padding: 12px; height: 100px; margin: 10px 0; border-radius: 8px; border: 1px solid #ddd; box-sizing: border-box;"></textarea>
+                <textarea style="width: 100%; padding: 10px; height: 80px; margin: 5px 0 15px; border-radius: 8px; border: 1px solid #ddd;"></textarea>
                 <button type="button" class="btn" style="width: 100%;" onclick="alert('Terima kasih!')">Kirim Ucapan</button>
             </form>
-        </div>
-    </section>
-
-    <section>
-        <div data-aos="fade-up">
-            <h2>Terima Kasih</h2>
-            <p>Kami yang berbahagia,</p>
-            <p><b>Zulkifli & Aulia Fitri R.</b></p>
         </div>
     </section>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
     <script>
         AOS.init({ duration: 1000 });
+
+        // Fitur Nama Tamu dari URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const tamu = urlParams.get('to');
+        if (tamu) { document.getElementById('nama-tamu').innerText = tamu; }
+
+        // Fitur Hitung Mundur
+        const weddingDate = new Date("Dec 12, 2026 08:00:00").getTime();
+        setInterval(function() {
+            const now = new Date().getTime();
+            const diff = weddingDate - now;
+            document.getElementById("days").innerText = Math.floor(diff / (1000 * 60 * 60 * 24));
+            document.getElementById("hours").innerText = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            document.getElementById("minutes").innerText = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            document.getElementById("seconds").innerText = Math.floor((diff % (1000 * 60)) / 1000);
+        }, 1000);
+
         const audio = document.getElementById('song');
         let playing = false;
         function toggleMusic() {
